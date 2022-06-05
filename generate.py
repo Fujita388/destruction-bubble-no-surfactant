@@ -7,11 +7,11 @@ random.seed(101)
 
 
 class Atom:
-    def __init__(self, x, y, z):
+    def __init__(self, x, y, z, atoms_type):
         self.x = x
         self.y = y
         self.z = z
-        self.type = 1
+        self.atoms_type = atoms_type
         v0 = 1.0
         z = random.random()*2.0-1
         s = random.random()*3.14*2.0
@@ -41,10 +41,14 @@ def add_ball_L(atoms, l, rho):
                 x = ix * s
                 y = iy * s
                 z = iz * s
-                atoms.append(Atom(x, y, z))
-                atoms.append(Atom(x, y+h, z+h))
-                atoms.append(Atom(x+h, y, z+h))
-                atoms.append(Atom(x+h, y+h, z))
+                if z == 0:  #一番下の原子は番号を2とする
+                    atoms.append(Atom(x, y, z, 2))
+                    atoms.append(Atom(x+h, y+h, z, 2))
+                else: 
+                    atoms.append(Atom(x, y, z, 1))
+                    atoms.append(Atom(x+h, y+h, z, 1))
+                atoms.append(Atom(x, y+h, z+h, 1))
+                atoms.append(Atom(x+h, y, z+h, 1))
 
 
 def add_ball_G(atoms, l, rho):
@@ -67,14 +71,14 @@ def save_file(filename, atoms):
     with open(filename, "w") as f:
         f.write("Position Data\n\n")
         f.write("{} atoms\n".format(len(atoms)))
-        f.write("1 atom types\n\n")
+        f.write("2 atom types\n\n")
         f.write("0.00 51.00 xlo xhi\n")
         f.write("0.00 51.00 ylo yhi\n")
         f.write("0.00 102.00 zlo zhi\n")
         f.write("\n")
         f.write("Atoms\n\n")
         for i, a in enumerate(atoms):
-            f.write("{} {} {} {} {}\n".format(i+1, a.type, a.x, a.y, a.z))
+            f.write("{} {} {} {} {}\n".format(i+1, a.atoms_type, a.x, a.y, a.z))
         f.write("\n")
         f.write("Velocities\n\n")
         for i, a in enumerate(atoms):
@@ -84,6 +88,6 @@ def save_file(filename, atoms):
 atoms = []
 
 add_ball_L(atoms, 51, 0.8)
-add_ball_G(atoms, 51, 0.2)
+#add_ball_G(atoms, 51, 0.2)
 
 save_file("coexist.atoms", atoms)
