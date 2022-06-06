@@ -100,6 +100,6 @@ def save_file(filename, atoms):
 atoms = []
 
 m_L = add_ball_L(atoms, 51, 0.8)
-add_ball_G(atoms, 51, 0.2, m_L)
+#add_ball_G(atoms, 51, 0.2, m_L)
 
 save_file("coexist.atoms", atoms)
