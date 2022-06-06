@@ -1,13 +1,14 @@
-# 気泡の気液界面での破壊シミュレーション
+# Simulation of the destruction of bubbles with no surfactant at the gas-liquid interface
 
-まずは気液共存状態を作る(ρ(G) < ρ < ρ(L))
+ Create gas-liquid coexistence conditions (ρ(G) < ρ < ρ(L))
 
-→ρ(L)とρ(G)をfccで作ってくっつける(generate.py)
+→  Create states of density ρ(L) and ρ(G), and attach together
 
-→重力をかける(NVT) 
+→  Hollow out of the liquid phase
 
-→液相の一部をくり抜く
+→  Gravity on atoms
 
 
-## 重力による平行移動を阻止する
-境界条件　か　動かない壁を作る(原子種別を変えて動かなくする)
+## Prevention of parallel shift caused by gravity
+
+ Create a wall that does not move with the atoms named number 2

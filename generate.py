@@ -15,12 +15,17 @@ class Atom:
         v0 = 1.0
         z = random.random()*2.0-1
         s = random.random()*3.14*2.0
-        self.vx = v0*sqrt(1.0-z**2)*cos(s)
-        self.vy = v0*sqrt(1.0-z**2)*sin(s)
-        self.vz = v0*z
+        if atoms_type == 2: # Initial velocity of atom 2 is 0
+            self.vx = 0
+            self.vy = 0
+            self.vz = 0
+        else:
+            self.vx = v0*sqrt(1.0-z**2)*cos(s)
+            self.vy = v0*sqrt(1.0-z**2)*sin(s)
+            self.vz = v0*z
 
 
-#密度から格子数を計算　L: シミュレーションボックス　rho: 密度
+# Calculate lattice number from density, L: box size, rho: density
 def get_lattice_number(L, rho):
     m = np.floor((L**3 * rho / 4.0)**(1.0 / 3.0))
     drho1 = np.abs(4.0 * m **3 / L**3 - rho)
@@ -31,17 +36,20 @@ def get_lattice_number(L, rho):
         return m + 1
 
 
+# Compose liquid-phase atoms
 def add_ball_L(atoms, l, rho):
-    m = int(get_lattice_number(l, rho))  #格子数
-    s = 1.7     #単位格子の一辺の長さ
+    m = int(get_lattice_number(l, rho))  # lattice number
+    s = 1.7  # Length of a unit lattice edge
     h = 0.5 * s
-    for ix in range(0, m):   #原子数は8倍になる
+    for ix in range(0, m):
         for iy in range(0, m):
             for iz in range(0, m):
                 x = ix * s
                 y = iy * s
                 z = iz * s
-                if z == 0:  #一番下の原子は番号を2とする
+                if 20<x<30 and 20<y<30 and 20<z<30:  # Hollow out of the liquid phase
+                    continue
+                if z == 0:  # Name the bottom atoms number 2
                     atoms.append(Atom(x, y, z, 2))
                     atoms.append(Atom(x+h, y+h, z, 2))
                 else: 
@@ -51,22 +59,24 @@ def add_ball_L(atoms, l, rho):
                 atoms.append(Atom(x+h, y, z+h, 1))
 
 
+# Compose gas-phase atoms
 def add_ball_G(atoms, l, rho):
-    m = int(get_lattice_number(l, rho))  #格子数
-    s = 1.7     #単位格子の一辺の長さ
+    m = int(get_lattice_number(l, rho))
+    s = 1.7
     h = 0.5 * s
-    for ix in range(0, m):   #原子数は8倍になる
+    for ix in range(0, m):
         for iy in range(0, m):
             for iz in range(0, m):
-                x = ix * s  #原点を移動
+                x = ix * s
                 y = iy * s
-                z = iz * s + l
+                z = iz * s + l  # Move the origin
                 atoms.append(Atom(x, y, z))
                 atoms.append(Atom(x, y+h, z+h))
                 atoms.append(Atom(x+h, y, z+h))
                 atoms.append(Atom(x+h, y+h, z))
 
 
+# Save as coexist.atoms
 def save_file(filename, atoms):
     with open(filename, "w") as f:
         f.write("Position Data\n\n")
