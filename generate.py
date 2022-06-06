@@ -38,12 +38,12 @@ def get_lattice_number(L, rho):
 
 # Compose liquid-phase atoms
 def add_ball_L(atoms, l, rho):
-    m = int(get_lattice_number(l, rho))  # lattice number
+    m_L = int(get_lattice_number(l, rho))  # lattice number in liquid-phase
     s = 1.7  # Length of a unit lattice edge
     h = 0.5 * s
-    for ix in range(0, m):
-        for iy in range(0, m):
-            for iz in range(0, m):
+    for ix in range(0, m_L):
+        for iy in range(0, m_L):
+            for iz in range(0, m_L):
                 x = ix * s
                 y = iy * s
                 z = iz * s
@@ -57,23 +57,25 @@ def add_ball_L(atoms, l, rho):
                     atoms.append(Atom(x+h, y+h, z, 1))
                 atoms.append(Atom(x, y+h, z+h, 1))
                 atoms.append(Atom(x+h, y, z+h, 1))
+    return m_L
 
 
 # Compose gas-phase atoms
-def add_ball_G(atoms, l, rho):
-    m = int(get_lattice_number(l, rho))
+def add_ball_G(atoms, l, rho, m_L):
+    m_G = int(get_lattice_number(l, rho))  # lattice number in gas-phase
+    scale = m_L / m_G  # Adjust box size
     s = 1.7
-    h = 0.5 * s
-    for ix in range(0, m):
-        for iy in range(0, m):
-            for iz in range(0, m):
-                x = ix * s
-                y = iy * s
-                z = iz * s + l  # Move the origin
-                atoms.append(Atom(x, y, z))
-                atoms.append(Atom(x, y+h, z+h))
-                atoms.append(Atom(x+h, y, z+h))
-                atoms.append(Atom(x+h, y+h, z))
+    h = 0.5 * s * scale
+    for ix in range(0, m_G):
+        for iy in range(0, m_G):
+            for iz in range(0, m_G):
+                x = ix * s * scale
+                y = iy * s * scale
+                z = iz * s * scale + l  # +l: Move the origin
+                atoms.append(Atom(x, y, z, 1))
+                atoms.append(Atom(x, y+h, z+h, 1))
+                atoms.append(Atom(x+h, y, z+h, 1))
+                atoms.append(Atom(x+h, y+h, z, 1))
 
 
 # Save as coexist.atoms
@@ -97,7 +99,7 @@ def save_file(filename, atoms):
 
 atoms = []
 
-add_ball_L(atoms, 51, 0.8)
-#add_ball_G(atoms, 51, 0.2)
+m_L = add_ball_L(atoms, 51, 0.8)
+add_ball_G(atoms, 51, 0.2, m_L)
 
 save_file("coexist.atoms", atoms)
