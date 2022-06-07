@@ -1,10 +1,10 @@
-# Simulation of the destruction of bubbles with no surfactant at the gas-liquid interface
+# Create a gas-liquid interface and apply gravity
 
  Create gas-liquid coexistence conditions (ρ(G) < ρ < ρ(L))
 
-→  Create states of density ρ(L) and ρ(G), and attach together
+→  Create states of density ρ(L) (and ρ(G)), and attach together
 
-→  Hollow out of the liquid phase
+→  Hollow out of the liquid phase to make a bubble
 
 →  Gravity on atoms
 
