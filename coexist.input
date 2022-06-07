@@ -24,7 +24,7 @@ fix 1 g-atoms nvt temp 0.7 0.7 0.1
 fix 2 g-atoms gravity 0.01 vector 0.0 0.0 -1
 
 
-dump id all custom 2500 coexist.lammpstrj id type x y z vx vy vz
+dump id all custom 5000 coexist.lammpstrj id type x y z vx vy vz
 
 thermo 500
-run 100000
+run 800000

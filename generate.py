@@ -47,9 +47,9 @@ def add_ball_L(atoms, l, rho):
                 x = ix * s
                 y = iy * s
                 z = iz * s
-                if 20<x<30 and 20<y<30 and 20<z<30:  # Hollow out of the liquid phase
+                if (x-l/2)**2 + (y-l/2)**2 + (z-l/2)**2 < 12**2:  # Hollow out of the liquid phase
                     continue
-                if z == 0:  # Name the bottom atoms number 2
+                elif z == 0:  # Name the bottom atoms number 2
                     atoms.append(Atom(x, y, z, 2))
                     atoms.append(Atom(x+h, y+h, z, 2))
                 else: 
