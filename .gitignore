@@ -2,4 +2,5 @@
 *.lammps
 *.lammpstrj
 *.atoms
+memo.txt
 data

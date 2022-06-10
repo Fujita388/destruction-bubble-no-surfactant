@@ -5,8 +5,10 @@ timestep 0.001
 
 read_data coexist.atoms
 
-mass 1 1.0
-mass 2 1.0
+# solvent
+mass 1 100.0
+# wall
+mass 2 100.0
 
 pair_style lj/cut 3.0
 pair_coeff 1 1 1.0 1.0 3.0
@@ -16,15 +18,13 @@ pair_coeff 2 2 1.0 1.0 3.0
 neighbor 0.3 bin
 neigh_modify every 20 delay 0 check no
 
-
 # Make a gruop ID named g-atoms
 group g-atoms type 1
 # Gravity and NVT only on atoms with atom type 1
 fix 1 g-atoms nvt temp 0.7 0.7 0.1
-fix 2 g-atoms gravity 0.01 vector 0.0 0.0 -1
-
+fix 2 g-atoms gravity 0.0001 vector 0.0 0.0 -1.0
 
 dump id all custom 5000 coexist.lammpstrj id type x y z vx vy vz
 
 thermo 500
-run 800000
+run 1000000

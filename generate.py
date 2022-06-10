@@ -39,7 +39,7 @@ def get_lattice_number(L, rho):
 # Compose liquid-phase atoms
 def add_ball_L(atoms, l, rho):
     m_L = int(get_lattice_number(l, rho))  # lattice number in liquid-phase
-    s = 1.7  # Length of a unit lattice edge
+    s = 1.875  # Length of a unit lattice edge
     h = 0.5 * s
     for ix in range(0, m_L):
         for iy in range(0, m_L):
@@ -47,7 +47,7 @@ def add_ball_L(atoms, l, rho):
                 x = ix * s
                 y = iy * s
                 z = iz * s
-                if (x-l/2)**2 + (y-l/2)**2 + (z-l/2)**2 < 12**2:  # Hollow out of the liquid phase
+                if (x-l/2)**2 + (y-l/2)**2 + (z-l/2)**2 < 15**2:  # Hollow out of the liquid phase
                     continue
                 elif z == 0:  # Name the bottom atoms number 2
                     atoms.append(Atom(x, y, z, 2))
@@ -79,14 +79,14 @@ def add_ball_G(atoms, l, rho, m_L):
 
 
 # Save as coexist.atoms
-def save_file(filename, atoms):
+def save_file(filename, atoms, l):
     with open(filename, "w") as f:
         f.write("Position Data\n\n")
         f.write("{} atoms\n".format(len(atoms)))
         f.write("2 atom types\n\n")
-        f.write("0.00 51.00 xlo xhi\n")
-        f.write("0.00 51.00 ylo yhi\n")
-        f.write("0.00 102.00 zlo zhi\n")
+        f.write("0.00 {} xlo xhi\n".format(l))
+        f.write("0.00 {} ylo yhi\n".format(l))
+        f.write("0.00 {} zlo zhi\n".format(2*l))
         f.write("\n")
         f.write("Atoms\n\n")
         for i, a in enumerate(atoms):
@@ -99,7 +99,8 @@ def save_file(filename, atoms):
 
 atoms = []
 
-m_L = add_ball_L(atoms, 51, 0.8)
+m_L = add_ball_L(atoms, 60, 0.6)
+#print(m_L)
 #add_ball_G(atoms, 51, 0.2, m_L)
 
-save_file("coexist.atoms", atoms)
+save_file("coexist.atoms", atoms, 60.0)

@@ -1,4 +1,4 @@
-# Create a gas-liquid interface and apply gravity
+# Simulation of the destruction of bubbles with no surfactant at the gas-liquid interface
 
  Create gas-liquid coexistence conditions (ρ(G) < ρ < ρ(L))
 
