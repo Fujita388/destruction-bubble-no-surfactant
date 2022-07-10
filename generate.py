@@ -86,7 +86,7 @@ def save_file(filename, atoms, l):
         f.write("2 atom types\n\n")
         f.write("0.00 {} xlo xhi\n".format(l))
         f.write("0.00 {} ylo yhi\n".format(l))
-        f.write("0.00 {} zlo zhi\n".format(2*l))
+        f.write("0.00 {} zlo zhi\n".format(l))
         f.write("\n")
         f.write("Atoms\n\n")
         for i, a in enumerate(atoms):
@@ -103,4 +103,4 @@ m_L = add_ball_L(atoms, 60, 0.6)
 #print(m_L)
 #add_ball_G(atoms, 51, 0.2, m_L)
 
-save_file("coexist.atoms", atoms, 60.0)
+save_file("make_bubble.atoms", atoms, 60.0)

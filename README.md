@@ -6,7 +6,9 @@
 
 →  Hollow out of the liquid phase to make a bubble
 
-→  Gravity on atoms
+→  Relax the system in no gravity (make_bubble.input)
+
+→  Gravity on atoms (gravity.input)
 
 
 ## Prevention of parallel shift caused by gravity
